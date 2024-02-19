@@ -1,0 +1,74 @@
+name: zherdeshmobileapplication
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+
+dependencies:
+  cupertino_icons: ^1.0.2
+  font_awesome_flutter: ^10.5.0
+  fluttertoast: ^8.2.2
+  hive: ^3.0.0-dev
+  hive_flutter: ^2.0.0-dev
+  image_picker: ^1.0.5
+  url_launcher: ^6.2.2
+  dio: ^5.3.3
+  insta_image_viewer: ^1.0.2
+  cached_network_image: ^3.3.0
+  video_player: ^2.8.2
+  google_sign_in: ^6.1.6
+  firebase_auth: ^4.16.0
+  firebase_core: ^2.24.2
+  dropdown_button2: ^2.3.9
+  carousel_slider: ^4.2.1
+  flutter_image_slideshow: ^0.1.6
+  flutter:
+    sdk: flutter
+
+
+
+
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+  loading_animation_widget: ^1.2.0+4
+  flutter_test:
+    sdk: flutter
+
+flutter_icons:
+  image_path: "assets/icon/icon.png"
+  android: true
+  ios: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/images/
+    - assets/icon/
+
+  fonts:
+    - family: ButtonTopic
+      fonts:
+        - asset: fonts/userButtonTopic.ttf
+    - family: ButtonDescription
+      fonts:
+        - asset: fonts/userButtonDescription.ttf

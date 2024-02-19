@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1082024102440",
+    "project_id": "zherdeshapplication",
+    "storage_bucket": "zherdeshapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082024102440:android:efe5553504f9345185031d",
+        "android_client_info": {
+          "package_name": "com.zherdeshapp.zherdeshmobileapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082024102440-2t4sc6jp03o30qfo2ge9ua740m1d4otu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zherdeshapp.zherdeshmobileapplication",
+            "certificate_hash": "9e15ab1480ab6d87585e7a1239c02137ce7175c0"
+          }
+        },
+        {
+          "client_id": "1082024102440-nigreu6geq37q49crojnupa6v01oaom7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF_kLO-rQhBYanIb7wJGUv4gceOpCYB24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082024102440-nigreu6geq37q49crojnupa6v01oaom7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1082024102440-251hu1mottq7orokrrc6ncna9pdackbk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zherdeshapplication.zherdeshapp.zherdesh"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
