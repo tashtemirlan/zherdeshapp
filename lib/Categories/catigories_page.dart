@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -11,41 +10,21 @@ import '../Search/search_category.dart';
 class Category {
   final int id;
   final String title;
-  final List<Subcategory> subcategories;
 
   Category({
     required this.id,
     required this.title,
-    required this.subcategories,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) {
-    List<Subcategory> subcategoriesList = List<Subcategory>.from(json['subcategories'].map((subcategory) => Subcategory.fromJson(subcategory)));
-
     return Category(
       id: json['id'],
       title: json['title'],
-      subcategories: subcategoriesList,
     );
   }
 }
 
-class Subcategory {
-  final int id;
-  final String title;
 
-  Subcategory({
-    required this.id,
-    required this.title,
-  });
-
-  factory Subcategory.fromJson(Map<String, dynamic> json) {
-    return Subcategory(
-      id: json['id'],
-      title: json['title'],
-    );
-  }
-}
 
 List<Category> parseCategories(String jsonString) {
   final parsed = jsonDecode(jsonString);
@@ -88,7 +67,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   String title = "";
   void setDataKyrgyz(){
-
+    title = "Категориялар";
+    noAnyDataOrInternet = "Эмне туура эмес болуп кетти...\nИнтернет жок же бизде көйгөй бар...";
   }
   void setDataRussian(){
       title = "Категории";
@@ -104,41 +84,55 @@ class _CategoriesPageState extends State<CategoriesPage> {
     try{
       //todo => send data to server : =>
       final respose = await dio.get(globals.endpointGetCategories);
+      print(respose);
       if(respose.statusCode == 200){
         String dataToParse = respose.toString();
         List<Category> categories = parseCategories(dataToParse);
 
         categories.forEach((category) {
-          if(category.title=="Авто" || category.title=="Товары из КР" || category.title=="Услуги"){
+          if(category.title=="Авто" || category.title=="Товары из КР" || category.title=="Услуги"
+          || category.title=="Авто" || category.title=="КР продуктылары" || category.title=="Кызматтар"
+          ){
             categoriesStringDataLine1.add(category.title);
             categoriesIndexLine1.add(category.id);
           }
-          if(category.title=="Недвижимость" || category.title=="Работа" || category.title=="Электроника"){
+          if(category.title=="Недвижимость" || category.title=="Работа" || category.title=="Электроника"
+          || category.title=="Кыймылсыз мулк" || category.title=="Жумуш" || category.title=="Электроника"
+          ){
             categoriesStringDataLine2.add(category.title);
             categoriesIndexLine2.add(category.id);
           }
-          if(category.title=="Одежда" || category.title=="Гостиницы" || category.title=="Детские вещи"){
+          if(category.title=="Одежда" || category.title=="Гостиницы" || category.title=="Детские вещи"
+          || category.title=="Кийим-кече" || category.title=="Мейманканалар" || category.title=="Балдар буюмдары"
+          ){
             categoriesStringDataLine3.add(category.title);
             categoriesIndexLine3.add(category.id);
           }
-          if(category.title=="Продукты" || category.title=="Бытовая техника" || category.title=="Красота и здоровье"){
+          if(category.title=="Продукты" || category.title=="Бытовая техника" || category.title=="Красота и здоровье"
+          || category.title=="Азык-түлүктөр" || category.title=="Үй техникасы" || category.title=="Сулуулук жана ден соолук"
+          ){
             categoriesStringDataLine4.add(category.title);
             categoriesIndexLine4.add(category.id);
           }
-          if(category.title=="Авиабилеты" || category.title=="Автотовары" || category.title=="Книги и журналы"){
+          if(category.title=="Авиабилеты" || category.title=="Автотовары" || category.title=="Книги и журналы"
+          || category.title=="Авиабилеттер" || category.title=="Авто товарлар" || category.title=="Китептер жана журналдар"
+          ){
             categoriesStringDataLine5.add(category.title);
             categoriesIndexLine5.add(category.id);
           }
-          if(category.title=="Мебель" || category.title=="Спорттовары" || category.title=="Для бизнеса"){
+          if(category.title=="Мебель" || category.title=="Спорттовары" || category.title=="Для бизнеса"
+          || category.title=="Недвижимость" || category.title=="Спорт товарлары" || category.title=="Бизнес үчүн"
+          ){
             categoriesStringDataLine6.add(category.title);
             categoriesIndexLine6.add(category.id);
           }
-          if(category.title=="Аксессуары" || category.title=="Разное"){
+          if(category.title=="Аксессуары" || category.title=="Разное"
+          || category.title=="Аксессуарлар" || category.title=="Ар түрдүү"
+          ){
             categoriesStringDataLine7.add(category.title);
             categoriesIndexLine7.add(category.id);
           }
         });
-
         setState(() {
           dataGet = true;
           recordsGranted = true;
@@ -173,9 +167,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
       double textSize1 , double textSize2 , double textSize3,
       int index1 , int index2 , int index3
       ){
-    double heightCategoryImage = height/7;
-    double textSize = 14;
-    double cardHeight = heightCategoryImage + 20 + textSize*3;
+    double heightCategoryImage = height/6;
+    double textSize = 16;
+    double cardHeight = heightCategoryImage + 20 + textSize*3.5;
     double cardWidth = width*0.3;
     double imageCardWidth = cardWidth * 0.85;
     return Padding(
@@ -480,22 +474,22 @@ class _CategoriesPageState extends State<CategoriesPage> {
               children: [
                 rowCategoryDataLine1(width, height,
                 categoriesStringDataLine1[0],
-                categoriesStringDataLine1[2],
                 categoriesStringDataLine1[1],
+                categoriesStringDataLine1[2],
                 blueOne, blueTwo, blueOne,
                 const AssetImage('assets/images/auto.png'),
                 const AssetImage('assets/images/services.png'),
                 const AssetImage('assets/images/mekenim.png'),
                 0, textType1, textType2, textType1,
-                14, 14, 14,
+                10, 10, 10,
                 categoriesIndexLine1[0],
-                categoriesIndexLine1[2],
                 categoriesIndexLine1[1],
+                categoriesIndexLine1[2],
                 ),
                 rowCategoryDataLine1(width, height,
+                    categoriesStringDataLine2[2],
                     categoriesStringDataLine2[0],
                     categoriesStringDataLine2[1],
-                    categoriesStringDataLine2[2],
                     blueTwo,
                     blueOne,
                     blueTwo,
@@ -506,14 +500,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     textType2,
                     textType1,
                     textType2,
-                    9,14,9,
+                    10,10,10,
+                    categoriesIndexLine2[2],
                     categoriesIndexLine2[0],
                     categoriesIndexLine2[1],
-                    categoriesIndexLine2[2],
                 ),
                 rowCategoryDataLine1(width, height,
-                    categoriesStringDataLine3[1],
                     categoriesStringDataLine3[0],
+                    categoriesStringDataLine3[1],
                     categoriesStringDataLine3[2],
                     orangeOne,
                     orangeTwo,
@@ -525,15 +519,15 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     textType1,
                     textType2,
                     textType1,
-                    14,14,14,
-                    categoriesIndexLine3[1],
+                    (globals.userLanguage=="ru")?14:8,14,14,
                     categoriesIndexLine3[0],
+                    categoriesIndexLine3[1],
                     categoriesIndexLine3[2],
                 ),
                 rowCategoryDataLine1(width, height,
                     categoriesStringDataLine4[1],
-                    categoriesStringDataLine4[2],
                     categoriesStringDataLine4[0],
+                    categoriesStringDataLine4[2],
                     orangeTwo,
                     orangeOne,
                     orangeTwo,
@@ -546,13 +540,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     textType2,
                     14,14,14,
                     categoriesIndexLine4[1],
-                    categoriesIndexLine4[2],
                     categoriesIndexLine4[0],
+                    categoriesIndexLine4[2],
                 ),
                 rowCategoryDataLine1(width, height,
-                    categoriesStringDataLine5[2],
-                    categoriesStringDataLine5[0],
                     categoriesStringDataLine5[1],
+                    categoriesStringDataLine5[0],
+                    categoriesStringDataLine5[2],
                     blueOne,
                     blueTwo,
                     blueOne,
@@ -565,33 +559,33 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     textType1,
                     12,
                     12,
-                    12,
-                    categoriesIndexLine5[2],
-                    categoriesIndexLine5[0],
+                    (globals.userLanguage=="ru")?12:10,
                     categoriesIndexLine5[1],
+                    categoriesIndexLine5[0],
+                    categoriesIndexLine5[2],
                 ),
                 rowCategoryDataLine1(width, height,
-                    categoriesStringDataLine6[0],
                     categoriesStringDataLine6[1],
+                    categoriesStringDataLine6[0],
                     categoriesStringDataLine6[2],
                     blueTwo,
                     blueOne,
                     blueTwo,
-                    const AssetImage('assets/images/furniture.png'),
                     const AssetImage('assets/images/sportGoods.png'),
+                    const AssetImage('assets/images/furniture.png'),
                     const AssetImage('assets/images/forBisness.png'),
                     10,
                     textType2,
                     textType1,
                     textType2,
-                    14,9,14,
-                    categoriesIndexLine6[0],
+                    9,12,14,
                     categoriesIndexLine6[1],
+                    categoriesIndexLine6[0],
                     categoriesIndexLine6[2],
                 ),
                 rowCategoryDataLineEnd(width, height,
-                  categoriesStringDataLine7[1],
                   categoriesStringDataLine7[0],
+                  categoriesStringDataLine7[1],
                   orangeTwo,
                   orangeOne,
                   const AssetImage('assets/images/accessories.png'),
@@ -599,10 +593,11 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   10,
                   textType2,
                   textType1,
-                  14,14,
-                  categoriesIndexLine7[1],
+                  (globals.userLanguage=="ru")?12:10,14,
                   categoriesIndexLine7[0],
+                  categoriesIndexLine7[1],
                 ),
+                const SizedBox(height: 20,)
               ],
             ),
         )

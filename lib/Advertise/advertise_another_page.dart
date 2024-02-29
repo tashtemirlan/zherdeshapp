@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -12,10 +11,7 @@ import 'package:hive/hive.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
-import 'package:zherdeshmobileapplication/HomeFiles/home_screen.dart';
 
-import '../UserDatas/userdata_page.dart';
-import 'edit_user_advertise_page.dart';
 
 class AdvertiseAnotherUserPageFullView extends StatefulWidget{
   final String postID;
@@ -62,8 +58,24 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
   String addressDataShow = "";
   String phoneDataShow = "";
   String copied = "";
-  void setDataEnglish(){
 
+  String notDefined = "";
+
+  void setDataKyrgyz(){
+    showDataDescr = "Баяндоо";
+    viewCountString = "Көрүүлөрдүн саны ";
+
+    complaint = "Даттануу";
+    dataPay3 = "Ырастоо";
+    dataPay4 = "Четке кагуу";
+    rekomended = "Сунуштар";
+    complainSuccess = "Ийгиликтүү!";
+
+    metroDataShow = "Метро";
+    addressDataShow = "Дареги";
+    phoneDataShow = "Байланыш";
+    copied = "Көчүрүлдү";
+    notDefined = "Көрсөтүлгөн эмес";
   }
   void setDataRussian(){
       showDataDescr = "Описание";
@@ -79,31 +91,36 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
       addressDataShow = "Адрес";
       phoneDataShow = "Телефон";
       copied = "Скопировано";
+      notDefined = "Не указано";
   }
 
 
   Future<void> getPostInfo() async{
-    print("Get post data : ");
     final dio = Dio();
     dio.options.headers['Accept-Language'] = globals.userLanguage;
     try{
       //todo => send data to server : =>
       final respose = await dio.get("${globals.endpointGetAnotherUserAdvertises}${widget.postID}");
       if(respose.statusCode == 200){
+        print(respose);
         //work with data =>
         String dataToParse = respose.toString();
-        print("DATA : $dataToParse");
         Map<String, dynamic> data = await json.decode(dataToParse);
         titlePost = data['title'];
         descriptionPost = data['description'];
         stationPost = data['metro_name'];
-        if(data['address']!=null){
+        if(data['address']!=null && data['address']!="default"){
           addressPost = data['address'];
         }
         else{
-          addressPost = "-";
+          addressPost = notDefined;
         }
-        phonePost = data['phone'];
+        if(data['phone']!="0"){
+          phonePost = data['phone'];
+        }
+        else{
+          phonePost = notDefined;
+        }
         subcategoryPost = data['subcategory'];
         viewCount = data['view_count'].toString();
         List<dynamic> imageMassive = data['images'];
@@ -123,7 +140,6 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
   }
 
   Future<void> getRecomendedList() async{
-    print("Get rekomended");
     final dio = Dio();
     dio.options.headers['Accept-Language'] = globals.userLanguage;
     try{
@@ -132,7 +148,6 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
       if(respose.statusCode == 200){
         //work with data =>
         String dataToParse = respose.toString();
-        print("Respose rekomended : $dataToParse");
         Map<String, dynamic> jsonDataMap =  await json.decode(dataToParse);
         List<dynamic> postsData = jsonDataMap['result'];
         for (var post in postsData) {
@@ -238,7 +253,6 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
   }
 
   Future<void> getComplaintsInfo(List<int> idComplainList, List<String> titleComplain) async{
-    print("Get complaints");
     final dio = Dio();
     dio.options.headers['Accept-Language'] = globals.userLanguage;
     try{
@@ -449,7 +463,9 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
   }
 
   Widget imageContainerDataVip(width , height , imagePath, imageCasual){
-    return Stack(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Stack(
       alignment: Alignment.topRight,
       children: [
         CachedNetworkImage(
@@ -488,6 +504,7 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
           ),
         )
       ],
+    ),
     );
   }
 
@@ -519,7 +536,9 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
   }
 
   Widget imageContainerData(width , height , imagePath, bool coloredIsAdvertise,imageCasual){
-    return Stack(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Stack(
       alignment: Alignment.topRight,
       children: [
         CachedNetworkImage(
@@ -558,6 +577,7 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
           ),
         )
       ],
+    ),
     );
   }
 
@@ -756,7 +776,7 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
     super.initState();
     //todo => localize data =>
     if(globals.userLanguage!="ru"){
-      setDataEnglish();
+      setDataKyrgyz();
     }
     if(globals.userLanguage=="ru"){
       setDataRussian();
@@ -951,7 +971,7 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
                                 )
                             ),
                             const SizedBox(width: 10,),
-                            GestureDetector(
+                            (phonePost!=notDefined)?GestureDetector(
                               onTap: (){
                                 //copy data =>
                                 Clipboard.setData(ClipboardData(text: phonePost));
@@ -965,7 +985,7 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
                                 );
                               },
                               child: const FaIcon(FontAwesomeIcons.solidCopy , size: 24, color: Color.fromRGBO(188, 188, 188, 1),),
-                            )
+                            ) : const SizedBox()
                           ],
                         ),
                       ),
@@ -982,7 +1002,8 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
                           children: [
                             GestureDetector(
                               onTap: (){
-                                String launch = "https://t.me/share/url?url=google.com";
+                                String defaultUrl = "https://zherdesh.ru/announcements/detail/${widget.postID}";
+                                String launch = "https://vk.com/share.php?url=$defaultUrl";
                                 Uri uri = Uri.parse(launch);
                                 _launchURL(uri);
                               },
@@ -1001,7 +1022,10 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
                             ),
                             GestureDetector(
                               onTap: (){
-
+                                String defaultUrl = "https://zherdesh.ru/announcements/detail/${widget.postID}";
+                                String launch = "https://connect.ok.ru/offer?url=$defaultUrl";
+                                Uri uri = Uri.parse(launch);
+                                _launchURL(uri);
                               },
                               child: Container(
                                 width: width*0.1,
@@ -1018,7 +1042,10 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
                             ),
                             GestureDetector(
                               onTap: (){
-
+                                String defaultUrl = "https://zherdesh.ru/announcements/detail/${widget.postID}";
+                                String launch = "whatsapp://send?text=$defaultUrl";
+                                Uri uri = Uri.parse(launch);
+                                _launchURL(uri);
                               },
                               child: Container(
                                 width: width*0.1,
@@ -1035,7 +1062,10 @@ class AdvertiseAnotherUserPageFullViewState extends State<AdvertiseAnotherUserPa
                             ),
                             GestureDetector(
                               onTap: (){
-
+                                String defaultUrl = "https://zherdesh.ru/announcements/detail/${widget.postID}";
+                                String launch = "https://t.me/share/url?url=$defaultUrl";
+                                Uri uri = Uri.parse(launch);
+                                _launchURL(uri);
                               },
                               child: Container(
                                 width: width*0.1,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
@@ -26,6 +25,8 @@ class _SearchPageState extends State<SearchPage> {
 
   void setDataKyrgyz(){
     searchText = "Издөө";
+    closeText = "Айынуу";
+    youSearched = "Сиз издеп жүрдүңүз";
   }
   void setDataRussian(){
     searchText = "Поиск";

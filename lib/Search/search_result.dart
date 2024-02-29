@@ -64,7 +64,10 @@ class SearchResultPageState extends State<SearchResultPage> {
   String results = "";
 
   void setDataKyrgyz(){
-
+    failureToFetchAdvertises = "Жаңы жарнамаларды \nжүктөө мүмкүн эмес";
+    showMessageTitle = "Жарыя табылган жок";
+    showMessageDescription = "Эмне туура эмес болуп кетти...\nбиз жарнамаларды таба алган жокпуз...";
+    results = "Үчүн жыйынтыктар ";
   }
 
   void setDataRussian(){

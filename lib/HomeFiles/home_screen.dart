@@ -72,7 +72,7 @@ class HomeScreenState extends State<HomeScreen>{
               ),
               width: width*0.9,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
@@ -82,7 +82,7 @@ class HomeScreenState extends State<HomeScreen>{
                       });
                     },
                     child: SizedBox(
-                      width: width*0.25,
+                      width: width*0.3,
                       height: 45,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -116,7 +116,7 @@ class HomeScreenState extends State<HomeScreen>{
                       }
                     },
                     child: SizedBox(
-                      width: width*0.25,
+                      width: width*0.3,
                       height: 45,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -143,7 +143,7 @@ class HomeScreenState extends State<HomeScreen>{
                       });
                     },
                     child: SizedBox(
-                      width: width*0.25,
+                      width: width*0.3,
                       height: 45,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,

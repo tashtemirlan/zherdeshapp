@@ -11,7 +11,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
 import 'package:zherdeshmobileapplication/Search/search_category_settings.dart';
 import '../Advertise/advertise_another_page.dart';
-import '../HomeFiles/home_screen.dart';
 
 
 class Banner{
@@ -63,7 +62,9 @@ class SearchCategoryPageState extends State<SearchCategoryPage> {
   List<int> searchSubcategoriesIndex = [];
 
   void setDataKyrgyz(){
-
+    failureToFetchAdvertises = "Жаңы жарнамаларды \nжүктөө мүмкүн эмес";
+    showMessageTitle = "Жарыя табылган жок";
+    showMessageDescription = "Эмне туура эмес болуп кетти...\nбиз жарнамаларды таба алган жокпуз...";
   }
 
   void setDataRussian(){

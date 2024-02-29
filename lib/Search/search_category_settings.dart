@@ -1,13 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:zherdeshmobileapplication/Search/search_category.dart';
-
-import '../HomeFiles/home_screen.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
 
 class SearchCategorySettingsPage extends StatefulWidget {
@@ -38,7 +34,9 @@ class SearchCategorySettingsPageState extends State<SearchCategorySettingsPage> 
 
 
   void setDataKyrgyz(){
-
+    title = "Чыпкалар";
+    subCategoryDefault = "Субкатегориялар";
+    submit = "Колдонуу";
   }
 
   void setDataRussian(){

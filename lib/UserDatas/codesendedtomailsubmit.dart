@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -62,6 +61,9 @@ class CodeSubmitInboxConfirmEmailState extends State<CodeSubmitInboxConfirmEmail
     hintText = "Сырсөз эсимде жок";
     codeSubmit = "Электрондук почта";
     showDataButton = "Кирүү";
+    errorMessageCode = "Коддун узундугу 6 белгиден аз!";
+    newCodeData = "Жаңы код алыңыз";
+    showNewCodeGranted = "Жаңы код жөнөтүлдү!";
   }
   void setDataRussian(){
     dataTopic = "Введите код";

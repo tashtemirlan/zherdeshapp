@@ -14,7 +14,7 @@ int chosenMetroIndex = -1;
 int countNumberOfAdvertises = 50;
 
 //todo: => here is all endpoints for project
-String mainPath = "https://sino0on.ru";
+String mainPath = "https://zherdesh.ru";
 //todo => login and sign up
 String endpointLogin = "$mainPath/api/v1/authentication/token/";
 String endpointCheckEmailSignUp = "$mainPath/api/v1/authentication/users/check-email/";
@@ -25,7 +25,7 @@ String endpointResetPasswordConfirm = "$mainPath/api/v1/authentication/users/res
 String endpointCodeReset= "$mainPath/api/v1/authentication/users/reset/code/confirm/";
 String endpointGetNewCode = "$mainPath/api/v1/authentication/users/register/send-sms-again/?email=";
 String endpointRegisterGoogle = "$mainPath/api/v1/social_auth/google/";
-
+String endpointRegisterVK= "$mainPath/api/v1/social_auth/vkontakte/";
 
 
 //todo => user data :

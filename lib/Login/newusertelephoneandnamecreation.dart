@@ -192,6 +192,12 @@ class SignUpPageNewUserCreateNameandPhoneState extends State<SignUpPageNewUserCr
               fontWeight: FontWeight.w500,
             ),
             errorMaxLines: 1,
+            suffixIcon: IconButton(
+              icon: Icon(Icons.task_alt, color: Colors.green.shade400, size: 22,),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+              },
+            ),
           ),
           style: const TextStyle(fontSize: 16 , fontWeight: FontWeight.w500 , color: Colors.black),
           validator: (String?value){

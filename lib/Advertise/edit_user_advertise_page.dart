@@ -128,6 +128,7 @@ class EditUserAdvertisePageState extends State<EditUserAdvertisePage>{
     dataShowCamera2 = "Эң көп дегенде 6 сүрөт кошуңуз.\nСүрөттүн максималдуу өлчөмү 12 Мб";
 
     publicSuccess = "Жарнама ийгиликтүү өзгөртүлдү!";
+    dataShowChooseMetro = "Метро тандоо";
   }
 
   void setDataRussian(){
@@ -275,6 +276,60 @@ class EditUserAdvertisePageState extends State<EditUserAdvertisePage>{
               fontWeight: FontWeight.w500,
             ),
             errorMaxLines: 1,
+          ),
+          style: const TextStyle(fontSize: 16 , fontWeight: FontWeight.w500 , color: Colors.black),
+          validator: (String?value){
+            if(value!.isEmpty){
+              return errorMessage;
+            }
+            return null;
+          }
+      ),
+    );
+  }
+
+  Widget containerUserDataPhone(width , data , TextEditingController controller , TextInputType type , String errorMessage, maxLines){
+    return SizedBox(
+      width: width*0.95,
+      child: TextFormField(
+          controller: controller,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          maxLines: maxLines,
+          keyboardType: type,
+          decoration:  InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(221, 221, 221, 1)),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(70, 170, 232, 1)),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(255, 0, 0, 0.5)),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(255, 0, 0, 0.5)),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            contentPadding: const EdgeInsets.only(left: 10, right: 20, top: 5),
+            labelText: data,
+            fillColor: Colors.white,
+            filled: true,
+            errorStyle:const TextStyle(
+              color: Color.fromRGBO(255, 0, 0, 0.5),
+              fontSize: 12,
+              letterSpacing: 0.2,
+              fontWeight: FontWeight.w500,
+            ),
+            errorMaxLines: 1,
+            suffixIcon: IconButton(
+              icon: Icon(Icons.task_alt, color: Colors.green.shade400, size: 22,),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+              },
+            ),
           ),
           style: const TextStyle(fontSize: 16 , fontWeight: FontWeight.w500 , color: Colors.black),
           validator: (String?value){
@@ -527,7 +582,7 @@ class EditUserAdvertisePageState extends State<EditUserAdvertisePage>{
               ),
             ),
             searchMatchFn: (item, searchValue) {
-              return item.value.toString().contains(searchValue);
+              return item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
             },
           ),
           //This to clear the search value when you close the menu
@@ -597,6 +652,7 @@ class EditUserAdvertisePageState extends State<EditUserAdvertisePage>{
   }
 
   Future<void> _pickImages() async {
+    FocusScope.of(context).unfocus();
     final picker = ImagePicker();
     final pickedFiles = await picker.pickMultiImage();
     if(pickedFiles!.isNotEmpty){
@@ -886,9 +942,9 @@ class EditUserAdvertisePageState extends State<EditUserAdvertisePage>{
                         const SizedBox(height: 15,),
                         containerUserData(width, streetString, streetController, TextInputType.text, errorMessageTextEdit,null),
                         const SizedBox(height: 10,),
-                        containerUserData(width, phoneNumberString,phoneController, TextInputType.phone, errorMessageTextEdit,1),
+                        containerUserDataPhone(width, phoneNumberString,phoneController, TextInputType.phone, errorMessageTextEdit,1),
                         const SizedBox(height: 10,),
-                        containerUserData(width, descriptionString, descriptionController, TextInputType.multiline, errorMessageTextEdit,null),
+                        containerUserDataPhone(width, descriptionString, descriptionController, TextInputType.multiline, errorMessageTextEdit,null),
                         const SizedBox(height: 15,),
                         userDataSave(width, height, context),
                         const SizedBox(height: 40,)

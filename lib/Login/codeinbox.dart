@@ -7,7 +7,7 @@ import 'login.dart';
 
 class CodeInbox extends StatefulWidget{
   final String userEmailForgetPassword ;
-  CodeInbox({required this.userEmailForgetPassword});
+  const CodeInbox({super.key, required this.userEmailForgetPassword});
 
   @override
   CodeInboxState createState ()=> CodeInboxState(userEmailForgetPassword);

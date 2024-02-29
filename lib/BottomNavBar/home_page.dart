@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -84,13 +82,13 @@ class HomePageState extends State<HomePage>{
     searchText = "Издөө";
     showAllGroups = "Бардык категория-\nларды көрсөтүү";
     lastAdvertises = "Акыркы жарыялар";
-
+    failureToFetchAdvertises = "Не удалось загрузить\nновые объявления";
   }
   void setDataRussian(){
     searchText = "Поиск";
     showAllGroups = "Показать все \nкатегории";
     lastAdvertises = "Последние объявления";
-    failureToFetchAdvertises = "Не удалось загрузить\nновые объявления";
+    failureToFetchAdvertises = "Жаңы жарнамаларды \nжүктөө мүмкүн эмес";
   }
 
   List<AssetImage> assetImagesHome = [
@@ -333,7 +331,7 @@ class HomePageState extends State<HomePage>{
     await getCategoriesHomePage();
     await getStoriesHomePage();
     await getBannersHomePage();
-    await getHomeAdvertises();
+    //await getHomeAdvertises();
     if(mounted){
       setState(() {
         dataGet = true;
@@ -447,7 +445,9 @@ class HomePageState extends State<HomePage>{
   }
 
   Widget imageContainerDataVip(width , height , imagePath, imageCasual){
-    return Stack(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Stack(
       alignment: Alignment.topRight,
       children: [
         CachedNetworkImage(
@@ -486,9 +486,9 @@ class HomePageState extends State<HomePage>{
           ),
         )
       ],
+    ),
     );
   }
-
 
 
   Widget advertiseCommon(width, String imagePath, bool postIsColored, String postTitle , String postDescription , postMetroName, imageHeight, imageCasual){
@@ -517,7 +517,9 @@ class HomePageState extends State<HomePage>{
   }
 
   Widget imageContainerData(width , height , imagePath, bool coloredIsAdvertise,imageCasual){
-    return Stack(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Stack(
       alignment: Alignment.topRight,
       children: [
         CachedNetworkImage(
@@ -556,6 +558,7 @@ class HomePageState extends State<HomePage>{
           ),
         )
       ],
+    ),
     );
   }
 
@@ -967,8 +970,9 @@ class HomePageState extends State<HomePage>{
                                                 ),
                                                 SizedBox(
                                                   height: 21,
+                                                  width: storiesHeight-21,
                                                   child: Text(
-                                                      text,
+                                                      text, textAlign: TextAlign.center,
                                                       style: const TextStyle(fontSize: 14 , color: Color.fromRGBO(30, 29, 33, 1), fontWeight: FontWeight.w500)
                                                   ),
                                                 )

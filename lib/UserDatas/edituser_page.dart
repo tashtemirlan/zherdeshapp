@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -70,7 +69,23 @@ class EditUserPageState extends State<EditUserPage>{
   TextEditingController phoneController = TextEditingController();
 
   void setDataKyrgyz(){
+    changeImageString = "Сүрөттү өзгөртүү";
+    nameString = "Ысым";
+    surnameString = "Атасынын аты";
+    emailString = "Почта";
+    phoneNumberString = "Байланыш";
 
+    userDataSaveString = "Сактоо";
+    title = "Профилди түзөтүү";
+    userForgetHisPassword = "Сырсөздү өзгөртүү";
+
+    errorMessageName = "Аты талаасы бош!";
+    errorMessageSurname = "Талаа фамилиясы бош!";
+    errorMessageEmail = "Почта талаасы бош!";
+    errorMessagePhone = "Телефон талаасы бош!";
+    errorMessageImageIsOverweight = "Файл өтө оор!\nМаксимум $maxWeight MB";
+
+    dataChanged = "Маалыматтар өзгөртүлдү";
   }
 
   void setDataRussian(){
@@ -141,6 +156,60 @@ class EditUserPageState extends State<EditUserPage>{
     );
   }
 
+
+
+  Widget containerUserDataPhone(width , data , TextEditingController controller , TextInputType type , String errorMessage){
+    return SizedBox(
+      width: width*0.85,
+      child: TextFormField(
+          controller: controller,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          keyboardType: type,
+          decoration:  InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(221, 221, 221, 1)),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(70, 170, 232, 1)),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(255, 0, 0, 0.5)),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Color.fromRGBO(255, 0, 0, 0.5)),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            contentPadding: const EdgeInsets.only(left: 10, right: 20),
+            labelText: data,
+            fillColor: Colors.white,
+            filled: true,
+            errorStyle:const TextStyle(
+              color: Color.fromRGBO(255, 0, 0, 0.5),
+              fontSize: 12,
+              letterSpacing: 0.2,
+              fontWeight: FontWeight.w500,
+            ),
+            errorMaxLines: 1,
+            suffixIcon: IconButton(
+              icon: Icon(Icons.task_alt, color: Colors.green.shade400, size: 22,),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+              },
+            ),
+          ),
+          style: const TextStyle(fontSize: 16 , fontWeight: FontWeight.w500 , color: Colors.black),
+          validator: (String?value){
+            if(value!.isEmpty){
+              return errorMessage;
+            }
+            return null;
+          }
+      ),
+    );
+  }
   Widget userDataSave(width, height, context){
     return GestureDetector(
       onTap: () async {
@@ -202,7 +271,7 @@ class EditUserPageState extends State<EditUserPage>{
                   textColor: Colors.black,
                 );
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (BuildContext context) => HomeScreen(positionBottomNavigationBar: 2)));
+                    builder: (BuildContext context) => const HomeScreen(positionBottomNavigationBar: 2)));
               }
             }
           }
@@ -459,7 +528,7 @@ class EditUserPageState extends State<EditUserPage>{
                                             :
                                         DecorationImage(
                                             image: NetworkImage('${globals.mainPath}${widget.avatarNetworkPath}'),
-                                            fit: BoxFit.cover,
+                                            fit: (widget.avatarNetworkPath=="/media/avatars/df/Zherdesh%20logo-05.png")?BoxFit.contain: BoxFit.cover,
                                             opacity: 0.4
                                         )
                                     ),
@@ -495,7 +564,7 @@ class EditUserPageState extends State<EditUserPage>{
                       const SizedBox(height: 10,),
                       containerUserData(width, surnameString, surnameController, TextInputType.name, errorMessageSurname),
                       const SizedBox(height: 10,),
-                      containerUserData(width, phoneNumberString,phoneController, TextInputType.phone, errorMessagePhone),
+                      containerUserDataPhone(width, phoneNumberString,phoneController, TextInputType.phone, errorMessagePhone),
                       const SizedBox(height: 20,),
                       userDataSave(width, height, context),
                       const SizedBox(height: 20,),

@@ -14,8 +14,7 @@ import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:zherdeshmobileapplication/Advertise/advertise_completed.dart';
 import 'package:zherdeshmobileapplication/Advertise/advertise_moderate.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
-
-import '../HomeFiles/home_screen.dart';
+import 'package:zherdeshmobileapplication/UserDatas/buyvipstatus_page.dart';
 
 class AdvertisePage extends StatefulWidget{
   const AdvertisePage({super.key});
@@ -37,7 +36,7 @@ class AdvertisePageState extends State<AdvertisePage>{
   List<String> metroID = [];
 
 
-  String dataToShow = "";
+
 
   String titleHint = "";
   String descriptionHint = "";
@@ -91,10 +90,36 @@ class AdvertisePageState extends State<AdvertisePage>{
 
   //todo => methods to setProper data =>
   void setDataKyrgyz(){
-    dataToShow = "KG";
+    topic = "Билдирүүнү жарыялоо";
+    hintCategoryChoose = "Категорияны тандаңыз";
+    hintMetroChoose = "Метро тандоо";
+
+    titleHint = "Аталышын териңиз";
+    descriptionHint = "Сыпаттаманы териңиз";
+    phoneHint = "Телефон номерин киргизиңиз";
+    addressHint = "Дарегин киргизиңиз";
+
+    errorTitle = "Талаа бош!";
+    errorDescription = "Талаа бош!";
+    errorPhone = "Талаа бош!";
+
+    showButton = "Жарыялоо";
+    searchHintTextInside = "Издөө";
+    noResultOnSearch = "Оо!Биз эч нерсе тапкан жокпуз...";
+
+    dataShowCamera1 = "Сүрөттөрдү жүктөө";
+    dataShowCamera2 = "Максимум 6 сүрөт кошуңуз.\nМаксималдуу сүрөт өлчөмү 12Mb";
+
+    publicSuccess = "Жарнама ийгиликтүү түзүлдү!";
+    clearImages = "Сүрөттөрдү тазалаңыз";
+
+    errorPickImages = "Сиз өтө көп\n сүрөттөрдү тандадыңыз!";
+    costPay = "Жарнаманын баасы";
+
+    dataShowChooseMetro = "Метро тандоо";
+    dataShowChooseCategory = "Субкатегорияны тандаңыз";
   }
   void setDataRussian(){
-    dataToShow = "RU";
     topic = "Публикация обьявления";
     hintCategoryChoose = "Выберите категорию";
     hintMetroChoose = "Выберите метро";
@@ -127,7 +152,6 @@ class AdvertisePageState extends State<AdvertisePage>{
   }
 
   Future<void> getCategories() async{
-    print("Categories");
     final dio = Dio();
     dio.options.headers['Accept-Language'] = globals.userLanguage;
     try{
@@ -167,7 +191,6 @@ class AdvertisePageState extends State<AdvertisePage>{
   }
 
   Future<void> getMetro() async{
-    print("Get metro");
     final dio = Dio();
     dio.options.headers['Accept-Language'] = globals.userLanguage;
     try{
@@ -243,8 +266,12 @@ class AdvertisePageState extends State<AdvertisePage>{
           )).toList(),
           value: selectedValueCategory,
           onChanged: (value) {
+            int posSubCat = categorySubcategory.indexOf(value!);
+            String costToPaySubCat = subcategoryCost[posSubCat];
             setState(() {
               selectedValueCategory = value;
+              costToPay = costToPaySubCat;
+
             });
           },
           buttonStyleData: ButtonStyleData(
@@ -291,7 +318,7 @@ class AdvertisePageState extends State<AdvertisePage>{
               ),
             ),
             searchMatchFn: (item, searchValue) {
-              return item.value.toString().contains(searchValue);
+              return item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
             },
           ),
           //This to clear the search value when you close the menu
@@ -387,7 +414,7 @@ class AdvertisePageState extends State<AdvertisePage>{
               ),
             ),
             searchMatchFn: (item, searchValue) {
-              return item.value.toString().contains(searchValue);
+              return item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
             },
           ),
           //This to clear the search value when you close the menu
@@ -510,6 +537,12 @@ class AdvertisePageState extends State<AdvertisePage>{
               fontWeight: FontWeight.w500,
             ),
             errorMaxLines: 1,
+            suffixIcon: IconButton(
+              icon: Icon(Icons.task_alt, color: Colors.green.shade400, size: 22,),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+              },
+            ),
           ),
           style: const TextStyle(fontSize: 16 , fontWeight: FontWeight.w500 , color: Colors.black),
           validator: (String?value){
@@ -558,6 +591,12 @@ class AdvertisePageState extends State<AdvertisePage>{
               fontWeight: FontWeight.w500,
             ),
             errorMaxLines: 1,
+            suffixIcon: IconButton(
+              icon: Icon(Icons.task_alt, color: Colors.green.shade400, size: 22,),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+              },
+            ),
           ),
           style: const TextStyle(fontSize: 16 , fontWeight: FontWeight.w500 , color: Colors.black),
           validator: (String?value){
@@ -671,7 +710,6 @@ class AdvertisePageState extends State<AdvertisePage>{
                   && phoneController.text.isNotEmpty && selectedValueCategory!.isNotEmpty
                   && selectedValueMetro!.isNotEmpty
               ){
-                print("TOUCH");
                 int metroPosName = metroNames.indexOf(selectedValueMetro!);
                 int categoryPosName = categorySubcategory.indexOf(selectedValueCategory!);
 
@@ -732,7 +770,22 @@ class AdvertisePageState extends State<AdvertisePage>{
                   if(error is DioException){
                     if (error.response != null) {
                       String toParseData = error.response.toString();
-                      print("Error $toParseData");
+                      print(toParseData);
+                      Map<String, dynamic> jsonData = await jsonDecode(toParseData);
+                      String dataToShow = jsonData['Error'];
+                      print(dataToShow);
+                      if(dataToShow == "У вас недостаточно средств"){
+                        Fluttertoast.showToast(
+                          msg: dataToShow,
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM, // Position of the toast on the screen
+                          backgroundColor: Colors.white, // Background color of the toast
+                          textColor: Colors.black,
+                          fontSize: 12.0,
+                        );
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (BuildContext context) => const BuyVipPage()));
+                      }
                     }
                   }
                 }
@@ -815,6 +868,7 @@ class AdvertisePageState extends State<AdvertisePage>{
   }
 
   Future<void> _pickImages() async {
+    FocusScope.of(context).unfocus();
     final picker = ImagePicker();
     final pickedFiles = await picker.pickMultiImage();
     if(pickedFiles!.isNotEmpty){

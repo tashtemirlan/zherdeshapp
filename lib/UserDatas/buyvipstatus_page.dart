@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,10 +39,24 @@ class BuyVipPageState extends State<BuyVipPage> {
   List<String> megaVipList = [];
   List<String> superVipList = [];
   void setDataKyrgyz(){
+    dataShowMain = "Тарифтик планыңызды жаңылап көптөгөн жеңилдиктерге ээ болуңуз!";
+    skidka = "Баасы";
+    obiavlenie = "Жарыялоо максимуму";
+    duration = "Күндөр";
+    moneyName = "Рублей";
 
+    dataPay1 = "Сатып алуу";
+    dataPay2 = "Сиз сатып жатасыз";
+    dataPay3 = "Ырастоо";
+    dataPay4 = "Четке кагуу";
+
+    dataHelp1 = "үчүн";
+    dataHelp2 = "күйүк";
+
+    buySuccessful = "Сиз ийгиликтүү\nжаңы планын сатып!";
   }
   void setDataRussian(){
-      dataShowMain = "Обновите свой план что б получить много привелегий!";
+      dataShowMain = "Обновите свой тарифный план, и получайте много привелегий!";
       skidka = "Скидка";
       obiavlenie = "Объявлений максимум";
       duration = "Дней";
@@ -455,7 +466,7 @@ class BuyVipPageState extends State<BuyVipPage> {
                             child: Text(
                               dataShowMain ,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w600,
+                              style: TextStyle(fontSize: (globals.userLanguage=="ru")?24: 18, color: Colors.white, fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),

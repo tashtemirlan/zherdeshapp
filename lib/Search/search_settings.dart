@@ -40,7 +40,12 @@ class SearchSettingsPageState extends State<SearchSettingsPage> {
   List<String> chosenValueInsideSearchSettings = [];
   String chosenToSearchMetroInsideSearchSettings = "";
   void setDataKyrgyz(){
-
+    title = "Чыпкалар";
+    dataShowChooseMetro = "Метро тандоо";
+    searchHintTextInside = "Издөө";
+    subCategoryDefault = "Субкатегориялар";
+    metroDefault = "Метро";
+    submit = "Колдонуу";
   }
 
   void setDataRussian(){
@@ -222,7 +227,7 @@ class SearchSettingsPageState extends State<SearchSettingsPage> {
               ),
             ),
             searchMatchFn: (item, searchValue) {
-              return item.value.toString().contains(searchValue);
+              return item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
             },
           ),
           //This to clear the search value when you close the menu

@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
@@ -75,7 +73,21 @@ class UserDataPageState extends State<UserDataPage>{
   String advertiseNotActive = "";
   bool userGetStatus = false;
   void setDataKyrgyz(){
-
+    nameString = "Ысым";
+    surnameString = "Атасынын аты";
+    emailString = "Почта";
+    phoneNumberString = "Байланыш";
+    emailConfirmedString = "Почта тастыкталды";
+    emailNotConfirmedString = "Почта тастыкталган жок";
+    changeUserData = "Профилди түзөт";
+    title = "Профиль";
+    moneyTotal = "Баланс";
+    myAdvertises = "Менин жарыяларым";
+    showMessageTitle = "Жарыялар жок";
+    showMessageDescription = "Сиз азырынча \nбир дагы жарнама түзө элексиз";
+    statusUser = "Статусу";
+    statusUserEndForm = "Статустун аяктоо күнү";
+    advertiseNotActive = "Активдүү эмес";
   }
 
   void setDataRussian(){
@@ -171,7 +183,7 @@ class UserDataPageState extends State<UserDataPage>{
                               image: DecorationImage(
                                   image: imageProvider,
                                   filterQuality: FilterQuality.high,
-                                  fit: BoxFit.cover
+                                  fit: (widget.avatarNetworkPath=="/media/avatars/df/Zherdesh%20logo-05.png")?BoxFit.contain: BoxFit.cover
                               )
                           ),
                         );
@@ -1477,7 +1489,7 @@ class UserDataPageState extends State<UserDataPage>{
     super.initState();
     if(globals.userLanguage!="ru"){
       if(widget.userStatus=="basic"){
-        rightDataUserStatus = "Жонокей";
+        rightDataUserStatus = "Жөнөкөй";
       }
       else{
         rightDataUserStatus = widget.userStatus;

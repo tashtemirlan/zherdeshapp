@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_vk/flutter_login_vk.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zherdeshmobileapplication/HomeFiles/home_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -17,7 +19,6 @@ class LogoStart extends StatefulWidget{
 }
 
 class LogoStartState extends State<LogoStart>{
-
   String noInternetRu = "Нет подключения\nк интернету!";
   String noInternetKg = "Интернетке байланыш жок";
 
@@ -43,9 +44,9 @@ class LogoStartState extends State<LogoStart>{
   }
 
   Future<bool> isUserHaveInternet() async{
-    Dio _dio = Dio();
+    Dio dio = Dio();
     try {
-      await _dio.head('https://www.google.com');
+      await dio.head('https://www.google.com');
       return true;
     } catch (e) {
       return false;
@@ -53,13 +54,12 @@ class LogoStartState extends State<LogoStart>{
   }
 
   Future<bool> isUserLogged() async{
-    print("Get if user logged?");
+    //check our logic =>
     var box = await Hive.openBox("logins");
     bool isRefreshTokenInHive= box.containsKey("refresh");
     bool isAccessTokenInHive= box.containsKey("access");
     if(isRefreshTokenInHive && isAccessTokenInHive){
       String refresh = box.get("refresh");
-      String access = box.get("access");
 
       final dio = Dio();
       dio.options.headers['Accept-Language'] = globals.userLanguage;
@@ -67,8 +67,6 @@ class LogoStartState extends State<LogoStart>{
         //try to refresh our tokens =>
 
         final respose = await dio.post(globals.endpointRefreshTokens, data: {"refresh" : refresh});
-        print(respose.statusCode);
-        print(respose);
         if(respose.statusCode == 200){
           String toParseData = respose.toString();
 
@@ -80,8 +78,7 @@ class LogoStartState extends State<LogoStart>{
           box.put("refresh", refresh);
           box.put("access", access);
 
-          print("Hive box on start have stored refresh as $refresh");
-          print("Hive box on start have stored access as $access");
+
           globals.isUserRegistered = true;
           return true;
         }
@@ -117,12 +114,38 @@ class LogoStartState extends State<LogoStart>{
   Future<void> logoMainMethod() async{
     //todo: ensure to initialize all neccessary voids and methods =>
     await Hive.initFlutter();
+    // todo : initialize our app metrica =>
+    AppMetrica.activate(const AppMetricaConfig("6236d4b9-5df2-4616-9121-4b0ed7a52fb1"));
+    //initialize VK =>
+    final vk = VKLogin();
+    await vk.initSdk();
     bool userCompletedLaunch = await checkLaunchData();
     if(userCompletedLaunch){
       bool userHaveInternet = await isUserHaveInternet();
       if(userHaveInternet){
         bool userLogged = await isUserLogged();
-        print(" User logged into system $userLogged");
+        if(userLogged){
+          if(globals.userLanguage=="ru"){
+            Fluttertoast.showToast(
+              msg: "Добро пожаловать!",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              fontSize: 12.0,
+            );
+          }
+          else{
+            Fluttertoast.showToast(
+              msg: "Кош келиңиз!",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.white,
+              textColor: Colors.black,
+              fontSize: 12.0,
+            );
+          }
+        }
         Timer(const Duration(milliseconds: 1250),()=>Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => const HomeScreen(positionBottomNavigationBar: 0,))));
       }

@@ -35,7 +35,7 @@ class AdvertiseCompletedPageState extends State<AdvertiseCompletedPage>{
   void initState() {
     super.initState();
     //todo => localize data =>
-    if(globals.userLanguage!="kg"){setDataKyrgyz();}
+    if(globals.userLanguage!="ru"){setDataKyrgyz();}
 
     if(globals.userLanguage=="ru"){setDataRussian();}
   }

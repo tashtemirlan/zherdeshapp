@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_login_vk/flutter_login_vk.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
@@ -34,10 +33,6 @@ class ProfilePageState extends State<ProfilePage>{
   String elevatedButtonShowUserNotRegisteredSignUp = "";
   String showRegisterData1 = "";
   String showRegisterData2 = "";
-  String showRegisterDataPolicyData1 = "";
-  String showRegisterDataPolicyData2 = "";
-  String showRegisterDataPolicyData3 = "";
-  String showRegisterDataPolicyData4 = "";
   String topic = "";
   String description ="";
   //todo: local variable to set rightly data =>
@@ -92,12 +87,32 @@ class ProfilePageState extends State<ProfilePage>{
   void setDataKyrgyz(){
     dataShowUserNotRegistered = "Жердештин бардык функцияларын \nколдонуу үчүн кириңиз же катталыңыз.";
     elevatedButtonShowUserNotRegisteredLogin = "Кирүү же катталуу";
+    elevatedButtonShowUserNotRegisteredSignUp = "Катталуу";
     showRegisterData1 = "Электрондук почта аркылуу кирүү";
     showRegisterData2 = "Кирүү";
-    showRegisterDataPolicyData1 = "Катталуу жана кирүү учурунда";
-    showRegisterDataPolicyData2 = "сиз Жердештин пайдалануу шарттарына ";
-    showRegisterDataPolicyData3 = "жана ";
-    showRegisterDataPolicyData4 = "маалыматтарды иштетүү саясатына макул болосуз";
+
+    topic = "Жарнамаңызды жайгаштырыңыз-жөнөкөй жана тез!";
+    description="Жарнамаңызды жарыялоодон мурун, аккаунтуңузга кириңиз же катталыңыз";
+    editProfile = "Профилди өзгөртүү";
+    vipButton = "VIP кызматтар";
+    addMoneyButton = "Эсепти толуктоо";
+    announcementButton = "Компаниянын кулактандыруулары";
+    exit = "Чыгуу";
+    alertDialogTitle = "Аккаунттан чыккыңыз келеби?";
+    alertDialogDescription = "Бардык сакталбаган маалыматтар жоголуп кетиши мүмкүн.";
+    choiceYes = "Чыгуу";
+    choiceNo = "Айынуу";
+
+    buttonVipTopic = "VIP";
+    buttonVipDescription = "Премиум статусу колдонмодо көбүрөөк жарнамаларыңызды калтырууга мүмкүндүк берет";
+    buttonAddMoneyTopic = "Упай";
+    buttonAddMoneyDescription = "Эсебиңизди каржылаңыз";
+    buttonUserTopic = "Кароо";
+    buttonUserDescription = "Маалыматты редакциялоо";
+    buttonAnnouncementsTopic = "Жарыялоо";
+    buttonAnnouncementsDescription = "Жердештен жарыя";
+    buttonSettingsTopic = "Орнотуулар";
+    buttonSettingsDescription = "Тилди өзгөртүү жана башкалар.";
   }
   void setDataRussian(){
     dataShowUserNotRegistered = "Войдите или зарегистрируйтесь, чтобы \nпользоваться всеми функциями Жердеш.";
@@ -215,6 +230,25 @@ class ProfilePageState extends State<ProfilePage>{
                 TextButton(
                   onPressed: ()async{
                     var box = await Hive.openBox("logins");
+                    bool logSocial = box.containsKey("Social");
+                    if(logSocial){
+                      // if we have loged as social user =>
+                      bool logViaVK = box.get("Social") == "VK";
+                      bool logViaGoogle = box.get("Social") == "Google" ;
+                      if(logViaVK){
+                        // Create an instance of VKLogin
+                        final vk = VKLogin();
+                        // Initialize
+                        await vk.initSdk();
+                        vk.logOut();
+                        print("Logged out from VK");
+                      }
+                      if(logViaGoogle){
+                        final GoogleSignIn _googleSignIn = GoogleSignIn();
+                        final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.disconnect();
+                        print("Loged out from Google");
+                      }
+                    }
                     await box.clear();
                     print("Logins box is cleared !");
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -313,7 +347,7 @@ class ProfilePageState extends State<ProfilePage>{
                             fullName, textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 28, color: Colors.black, fontWeight: FontWeight.w600 ,
-                                letterSpacing: 0, fontStyle: FontStyle.italic , fontFamily: 'ButtonDescription'
+                                letterSpacing: 0, fontStyle: FontStyle.italic
                             )),
                       ),
                     ],
@@ -379,7 +413,6 @@ class ProfilePageState extends State<ProfilePage>{
                                           textAlign: TextAlign.start,
                                           style: const TextStyle(
                                               fontSize: 10, color: Colors.white, fontWeight: FontWeight.w400 ,
-                                              fontFamily: 'ButtonDescription'
                                           )
                                       )
                                     ],
@@ -428,7 +461,6 @@ class ProfilePageState extends State<ProfilePage>{
                                             textAlign: TextAlign.start,
                                             style: const TextStyle(
                                                 fontSize: 10, color: Colors.white, fontWeight: FontWeight.w400 ,
-                                                fontFamily: 'ButtonDescription'
                                             )
                                         )
                                       ],
@@ -488,7 +520,6 @@ class ProfilePageState extends State<ProfilePage>{
                                             textAlign: TextAlign.start,
                                             style: const TextStyle(
                                                 fontSize: 10, color: Colors.white, fontWeight: FontWeight.w400 ,
-                                                fontFamily: 'ButtonDescription'
                                             )
                                         )
                                       ],
@@ -541,7 +572,6 @@ class ProfilePageState extends State<ProfilePage>{
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                             fontSize: 10, color: Colors.white, fontWeight: FontWeight.w400 ,
-                                            fontFamily: 'ButtonDescription'
                                         )
                                     )
                                   ],
@@ -588,7 +618,6 @@ class ProfilePageState extends State<ProfilePage>{
                                         textAlign: TextAlign.start,
                                         style: const TextStyle(
                                             fontSize: 10, color: Colors.white, fontWeight: FontWeight.w400,
-                                            fontFamily: 'ButtonDescription'
                                         )
                                     )
                                   ],
@@ -673,7 +702,9 @@ class ProfilePageState extends State<ProfilePage>{
   @override
   void initState() {
     super.initState();
-    getUserInfo();
+    if(globals.isUserRegistered){
+      getUserInfo();
+    }
   }
 
 

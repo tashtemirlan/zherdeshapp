@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
@@ -45,6 +44,7 @@ class CodeInboxConfirmEmailState extends State<CodeInboxConfirmEmail>{
     dataTopic = "Кирүү";
     hintText = "Сырсөз эсимде жок";
     showDataButton = "Кирүү";
+    buttonNotReady = "Күтүү";
   }
   void setDataRussian(){
     dataTopic = "Проверьте свою почту";

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,17 +20,15 @@ class SettingPage extends StatefulWidget{
 }
 
 class SettingPageState extends State<SettingPage>{
-
+  bool dataGet = false;
   String title = "";
   String setLanguage = "";
-  String created = "";
-  String company = "";
   String russia = "";
   String kyrgyzstan = "";
   String selectedOption = globals.userLanguage;
   String kgValue = "ky";
   String ruValue = "ru";
-  String langChangedKg  = "New Kyrgyz!";
+  String langChangedKg  = "Тил өзгөртүлдү!";
   String langChangedRu  = "Язык изменен!";
   String promo = "";
   String send = "";
@@ -48,14 +44,25 @@ class SettingPageState extends State<SettingPage>{
   TextEditingController promoCodeTextEditingController = TextEditingController();
 
   void setDataKyrgyz(){
-
+    title = "Орнотуулар";
+    setLanguage = "Тилди тандаңыз";
+    russia = "Орусча";
+    kyrgyzstan = "Кыргызча";
+    errorMessagePromoCodeEmpty = "Промо коду талаасы бош!";
+    promo = "Промо код";
+    send = "Жөнөтүү";
+    successfulPromoCodeRedeemed = "Промо код\nиштетилди!";
+    failedPromoCodeRedeemed = "Код жараксыз!";
+    privacy = "Колдонуу шарттары";
+    policy = "Маалыматтарды иштетүү саясаты";
+    and = "жана";
+    rules = "Эрежелер жана саясат";
+    social = "Биздин соц. тармак";
   }
 
   void setDataRussian(){
     title = "Настройки";
     setLanguage = "Выберите язык";
-    created = "Разработано командой";
-    company = "TEIT\nCORP";
     russia = "Русский";
     kyrgyzstan = "Кыргызский";
     errorMessagePromoCodeEmpty = "Поле промо кода пустое!";
@@ -185,10 +192,43 @@ class SettingPageState extends State<SettingPage>{
     );
   }
 
+  Widget loading(statusBarHeight, width, mainSizedBoxHeightUserNotLogged){
+    return WillPopScope(
+      onWillPop: () async{
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const HomeScreen(positionBottomNavigationBar: 2)));
+        return true;
+      },
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body:Padding(padding: EdgeInsets.only(top: statusBarHeight),
+            child: Container(
+                width: width,
+                height: mainSizedBoxHeightUserNotLogged,
+                color: const Color.fromRGBO(250, 250, 250, 1),
+                child:  const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                  ),
+                )
+            ),
+          )
+      ),
+    );
+  }
+
   Future<void> _launchURL(Uri url) async {
     await launchUrl(url);
   }
 
+  Future<void> setDataLanguage() async {
+    if(globals.userLanguage!="ru"){setDataKyrgyz();}
+
+    if(globals.userLanguage=="ru"){setDataRussian();}
+    setState(() {
+      dataGet = true;
+    });
+  }
 
 
   @override
@@ -200,9 +240,7 @@ class SettingPageState extends State<SettingPage>{
   @override
   void initState() {
     super.initState();
-    if(globals.userLanguage!="ru"){setDataKyrgyz();}
-
-    if(globals.userLanguage=="ru"){setDataRussian();}
+    setDataLanguage();
   }
 
   @override
@@ -215,7 +253,8 @@ class SettingPageState extends State<SettingPage>{
     double socialNetworkContainer = width/5;
     double socialNetworkLogo = width/8;
 
-    return WillPopScope(
+    return (dataGet)?
+    WillPopScope(
       onWillPop: () async{
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => const HomeScreen(positionBottomNavigationBar: 2)));
@@ -321,7 +360,8 @@ class SettingPageState extends State<SettingPage>{
                                       setState(() {
                                         selectedOption = value!;
                                         globals.userLanguage = kgValue;
-
+                                        dataGet = false;
+                                        setDataLanguage();
                                       });
                                     },
                                     controlAffinity: ListTileControlAffinity.trailing,
@@ -375,6 +415,8 @@ class SettingPageState extends State<SettingPage>{
                                         setState(() {
                                           selectedOption = value!;
                                           globals.userLanguage = ruValue;
+                                          dataGet = false;
+                                          setDataLanguage();
                                         });
                                       },
                                       controlAffinity: ListTileControlAffinity.trailing,
@@ -462,8 +504,8 @@ class SettingPageState extends State<SettingPage>{
                                         child: Text(
                                           privacy ,
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            fontSize: 12, color: Color.fromRGBO(77, 170, 232, 1) , fontWeight: FontWeight.w600,
+                                          style: TextStyle(
+                                            fontSize: (globals.userLanguage=="ru")?12 : 11, color: const Color.fromRGBO(77, 170, 232, 1) , fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       ),
@@ -471,8 +513,8 @@ class SettingPageState extends State<SettingPage>{
                                       Text(
                                         and ,
                                         textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: 18, color: Color.fromRGBO(122, 122, 122, 1) , fontWeight: FontWeight.w600,
+                                        style: TextStyle(
+                                          fontSize: (globals.userLanguage=="ru")?18: 12, color: const Color.fromRGBO(122, 122, 122, 1) , fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       const SizedBox(height: 3),
@@ -484,8 +526,8 @@ class SettingPageState extends State<SettingPage>{
                                         child: Text(
                                           policy ,
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            fontSize: 12, color: Color.fromRGBO(77, 170, 232, 1) , fontWeight: FontWeight.w600,
+                                          style: TextStyle(
+                                            fontSize: (globals.userLanguage=="ru")?12 : 11, color: const Color.fromRGBO(77, 170, 232, 1) , fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                       )
@@ -610,7 +652,8 @@ class SettingPageState extends State<SettingPage>{
             ),
           )
       ),
-    );
-
+    )
+        :
+    loading(statusBarHeight, width, mainSizedBoxHeightUserNotLogged);
   }
 }

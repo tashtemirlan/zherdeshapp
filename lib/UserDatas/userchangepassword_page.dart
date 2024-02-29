@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:zherdeshmobileapplication/Login/newusertelephoneandnamecreation.dart';
-import 'package:zherdeshmobileapplication/Login/signup.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
 import 'package:zherdeshmobileapplication/UserDatas/passwordchanged_page.dart';
 
@@ -60,6 +58,12 @@ class UserChangePasswordState extends State<UserChangePassword>{
 
   void setDataKyrgyz(){
     dataTopic = "Кирүү";
+    oldpassword = "Эски сырсөз";
+    password = "Сөздү кириш";
+    retrypassword = "Сырсөздү кайра киргизиңиз";
+    continues = "Улантуу";
+    errormessagePasswordsNotEqual = "Сырсөздөр дал келбейт!";
+    errormessagePasswordsLenTooShort = "Сырсөздүн узундугу кеминде 8 белгиден турушу керек!";
   }
 
   void setDataRussian(){

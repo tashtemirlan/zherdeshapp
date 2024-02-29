@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
@@ -21,6 +19,9 @@ class PasswordChangedPageState extends State<PasswordChangedPage>{
 
   //todo => methods to setProper data =>
   void setDataKyrgyz(){
+    passwordReset="Сырсөз ийгиликтүү өзгөртүлдү!";
+    description = "Эми сиз жаңы сырсөз менен каттоо эсебиңизге кире аласыз.";
+    showDataButton = "Кирүү";
   }
   void setDataRussian(){
     passwordReset="Пароль успешно изменен!";

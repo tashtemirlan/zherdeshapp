@@ -18,7 +18,7 @@ class AdvertiseModeratePageState extends State<AdvertiseModeratePage>{
 
   //todo => methods to setProper data =>
   void setDataKyrgyz(){
-    createSuccess="";
+    createSuccess="Жарнамаңыз каралууда";
     showDataButton = "Улантуу";
   }
   void setDataRussian(){
@@ -35,7 +35,7 @@ class AdvertiseModeratePageState extends State<AdvertiseModeratePage>{
   void initState() {
     super.initState();
     //todo => localize data =>
-    if(globals.userLanguage!="kg"){setDataKyrgyz();}
+    if(globals.userLanguage!="ru"){setDataKyrgyz();}
 
     if(globals.userLanguage=="ru"){setDataRussian();}
   }

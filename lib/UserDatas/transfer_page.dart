@@ -28,7 +28,11 @@ class TransferPageState extends State<TransferPage>{
   List<String> formattedTotals = [];
 
   void setDataKyrgyz(){
-
+    topic = "Төлөм тарыхы";
+    cashAdding = "Эсепти толуктоо";
+    transactions = "Төлөмдөр";
+    showMessageTitle = "Азырынча төлөм жок";
+    showMessageDescription = "Алар бул жерде биринчи транзакцияда пайда болот";
   }
   void setDataRussian(){
     topic = "История оплат";

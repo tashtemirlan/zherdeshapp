@@ -28,7 +28,9 @@ class AnnouncementPageState extends State<AnnouncementPage>{
   bool anyRecords = false;
 
   void setDataKyrgyz(){
-
+    title = "Компаниянын кулактандыруулары";
+    showMessageTitle = "Кулактандыруулар жок";
+    showMessageDescription = "Бул жерден кулактандыруулар\nменен тааныша аласыз";
   }
 
   void setDataRussian(){
@@ -297,7 +299,7 @@ class AnnouncementPageState extends State<AnnouncementPage>{
     return WillPopScope(
       onWillPop: () async{
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreen(positionBottomNavigationBar: 2)));
+            builder: (BuildContext context) => const HomeScreen(positionBottomNavigationBar: 2)));
         return true;
       },
       child: Scaffold(
@@ -335,11 +337,11 @@ class AnnouncementPageState extends State<AnnouncementPage>{
                                   height: 30,
                                   width: width*0.7,
                                   child: Padding(
-                                      padding: const EdgeInsets.only(top: 7.5),
+                                      padding: (globals.userLanguage=="ru")?const EdgeInsets.only(top: 7.5) : const EdgeInsets.only(top: 10),
                                       child: Text(
                                           title, textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500
+                                          style: TextStyle(
+                                              fontSize: (globals.userLanguage=="ru")?20:16, color: Colors.black, fontWeight: FontWeight.w500
                                           ))
                                   )
                               ),

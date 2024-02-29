@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zherdeshmobileapplication/GlobalVariables/global_variables.dart' as globals;
 import 'package:zherdeshmobileapplication/HomeFiles/home_screen.dart';
-
-import '../logo_start.dart';
 
 
 class EmailConfirmCompletedPage extends StatefulWidget{

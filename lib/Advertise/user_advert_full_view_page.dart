@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -84,25 +83,30 @@ class AdvertiseHUserPageFullViewState extends State<AdvertiseUserPageFullView>{
   String addressDataShow = "";
   String phoneDataShow = "";
 
-  void setDataEnglish(){
+  String notDefined = "";
+  void setDataKyrgyz(){
     showDataDescr = "Маалымат";
     dateOfPublication = "Жарыяланган күнү:";
     viewCountString = "Көрүүлөрдүн саны:";
-    makeVip = "Сделать объявление ВИП";
-    makeTop = "Поднять объявление в ТОП";
-    makeColored = "Сделать объявление цветным";
-    edit = "Редактировать объявление";
-    delete = "Удалить объявление";
-    advertiseVip = "Объявление ВИП:";
-    advertiseColored = "Объявление цветное:";
-    advertiseActive = "Объявление активно:";
-    dataPay1 = "Покупка";
-    dataPay2 = "Вы покупаете";
-    dataPay3 = "Подтвердить";
-    dataPay4 = "Отклонить";
-    buySuccess = "Успешно!";
-    deleteTitile = "Удалить объявление";
-    deleteConfirm = "Вы уверены? Удаленное объявление нельзя будет вернуть.";
+    makeVip = "Жарыялоо ВИП";
+    makeTop = "Жарнаманы чокуга көтөрүңүз";
+    makeColored = "Жарнаманы түстүү кылыңыз";
+    edit = "Жарнаманы түзөтүңүз";
+    delete = "Жарнаманы жок кылуу";
+    advertiseVip = "ВИП Жарыялоо:";
+    advertiseColored = "Жарыя түстүү:";
+    advertiseActive = "Активдүү кулактандыруу:";
+    dataPay1 = "Сатып алуу";
+    dataPay2 = "Сиз сатып жатасыз";
+    dataPay3 = "Ырастоо";
+    dataPay4 = "Четке кагуу";
+    buySuccess = "Ийгиликтүү!";
+    deleteTitile = "Жарнаманы жок кылуу";
+    deleteConfirm = "Чын элеби? Жок кылынган жарнама кайтарылбайт.";
+    metroDataShow = "Метро";
+    addressDataShow = "Дареги";
+    phoneDataShow = "Байланыш";
+    notDefined = "Көрсөтүлгөн эмес";
   }
   void setDataRussian(){
       showDataDescr = "Описание";
@@ -126,6 +130,7 @@ class AdvertiseHUserPageFullViewState extends State<AdvertiseUserPageFullView>{
       metroDataShow = "Метро";
       addressDataShow = "Адрес";
       phoneDataShow = "Телефон";
+      notDefined = "Не указано";
   }
 
   void _showCupertinoDialogBuyVipAdvertise(BuildContext context , String idPost , String cost) {
@@ -494,9 +499,7 @@ class AdvertiseHUserPageFullViewState extends State<AdvertiseUserPageFullView>{
   }
 
 
-
   Future<void> getPostInfo() async{
-    print("Get post data : ");
     final dio = Dio();
 
     //set Dio response =>
@@ -509,6 +512,7 @@ class AdvertiseHUserPageFullViewState extends State<AdvertiseUserPageFullView>{
     try{
       //todo => send data to server : =>
       final respose = await dio.get("${globals.endpointGetInformationAdvertiseUser}${widget.postID}");
+      print(respose);
       if(respose.statusCode == 200){
         //work with data =>
         String dataToParse = respose.toString();
@@ -516,13 +520,18 @@ class AdvertiseHUserPageFullViewState extends State<AdvertiseUserPageFullView>{
         titlePost = data['title'];
         descriptionPost = data['description'];
         stationPost = data['metro_name'];
-        if(data['address']!=null){
+        if(data['address']!=null && data['address']!="default"){
           addressPost = data['address'];
         }
         else{
-          addressPost = "-";
+          addressPost = notDefined;
         }
-        phonePost = data['phone'];
+        if(data['phone']!="0"){
+          phonePost = data['phone'];
+        }
+        else{
+          phonePost = notDefined;
+        }
         subcategoryPost = data['subcategory']['title'];
         createdAt = data['created_at'].toString();
         viewCount = data['view_count'].toString();
@@ -647,7 +656,12 @@ class AdvertiseHUserPageFullViewState extends State<AdvertiseUserPageFullView>{
       }
     }
     else{
-      return "KYRGYZ";
+      if(dataBoolean){
+        return "Ооба";
+      }
+      else{
+        return "Жок";
+      }
     }
 
 
@@ -895,7 +909,7 @@ class AdvertiseHUserPageFullViewState extends State<AdvertiseUserPageFullView>{
     super.initState();
     //todo => localize data =>
     if(globals.userLanguage!="ru"){
-      setDataEnglish();
+      setDataKyrgyz();
     }
     if(globals.userLanguage=="ru"){
       setDataRussian();
