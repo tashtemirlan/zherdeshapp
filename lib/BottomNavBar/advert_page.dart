@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -772,7 +771,7 @@ class AdvertisePageState extends State<AdvertisePage>{
                       String toParseData = error.response.toString();
                       print(toParseData);
                       Map<String, dynamic> jsonData = await jsonDecode(toParseData);
-                      String dataToShow = jsonData['Error'];
+                      String dataToShow = jsonData['Info'];
                       print(dataToShow);
                       if(dataToShow == "У вас недостаточно средств"){
                         Fluttertoast.showToast(

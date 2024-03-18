@@ -14,7 +14,7 @@ int chosenMetroIndex = -1;
 int countNumberOfAdvertises = 50;
 
 //todo: => here is all endpoints for project
-String mainPath = "https://zherdesh.ru";
+String mainPath = "https://servicebackend.zherdesh.ru";
 //todo => login and sign up
 String endpointLogin = "$mainPath/api/v1/authentication/token/";
 String endpointCheckEmailSignUp = "$mainPath/api/v1/authentication/users/check-email/";
